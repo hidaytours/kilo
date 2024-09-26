@@ -7,6 +7,7 @@
 # include <stdio.h>
 # include <stdbool.h>
 
+# include "utils.h"
 # include "error.h"
 # include "terminal.h"
 
