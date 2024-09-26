@@ -1,13 +1,14 @@
 #include "terminal.h"
 
-static t_termios g_original;
+static t_termios	g_original;
 
-void enableRawMode(void) {
-	t_termios raw;
+void	enable_raw_mode(void)
+{
+	t_termios	raw;
 
 	if (tcgetattr(STDIN_FILENO, &g_original) == -1)
 		die("tcgetattr");
-	atexit(disableRawMode);
+	atexit(disable_raw_mode);
 	raw = g_original;
 	raw.c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
 	raw.c_oflag &= ~(OPOST);
@@ -19,7 +20,7 @@ void enableRawMode(void) {
 		die("tcsetattr");
 }
 
-void disableRawMode(void) {
+void disable_raw_mode(void)	{
 	if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &g_original) == -1)
 		die("tcsetattr");
 }

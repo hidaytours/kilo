@@ -1,21 +1,34 @@
 #include "main.h"
 
-int	main(void)
+static char	char_read_key()
+{
+	int		nread;
+	char	c;
+
+	while (true)
+	{
+		nread = read(STDIN_FILENO, &c, 1);
+		if (nread == 1)
+			break ;
+		if (nread == -1 && errno != EAGAIN)
+			die("read");
+	}
+	return (c);
+}
+
+static void	editor_process_keypress()
 {
 	char	c;
 
-	enableRawMode();
+	c = char_read_key();
+	if (c == CTRL_KEY('q'))
+		exit(0);
+}
+
+int	main(void)
+{
+	enable_raw_mode();
 	while (true)
-	{
-		c = '\0';
-		if (read(STDIN_FILENO, &c, 1) == -1 && errno != EAGAIN)
-			die("read");
-		if (iscntrl(c))
-			printf("%d\r\n", c);
-		else
-			printf("%d ('%c')\r\n", c, c);
-		if (c == 'q')
-			break;
-	}
+		editor_process_keypress();
 	return (0);
 }

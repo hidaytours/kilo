@@ -9,7 +9,7 @@
 
 typedef struct termios t_termios;
 
-void enableRawMode(void);
-void disableRawMode(void);
+void enable_raw_mode(void);
+void disable_raw_mode(void);
 
 #endif
